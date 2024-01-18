@@ -1,9 +1,10 @@
 <template>
   <q-page>
     <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-      <div style="position: relative; width: 1200px; height: 720px; overflow: hidden;">
-        <video ref="video" width="1200" height="720" autoplay style="position: absolute;"></video>
-        <canvas ref="dniFrameCanvas" style="position: absolute; border: 2px solid red; box-sizing: border-box; transform: translate(-50%, -50%);" :style="dniFrameStyle" @click="captureIfSameColor"></canvas>
+      <div style="position: relative; width: 3600px; height: 2160px; overflow: hidden;">
+        <img src="../assets/dni.png" alt="dni background" style="position: absolute; width: 100%; height: 100%; z-index: -1;">
+        <video ref="video" width="3600" height="2160" autoplay style="position: absolute; display: none;"></video>
+        <canvas ref="dniFrameCanvas" style="position: absolute; border: 6px solid red; box-sizing: border-box; transform: translate(-50%, -50%);" :style="dniFrameStyle" @click="captureIfSameColor"></canvas>
       </div>
     </div>
   </q-page>
@@ -14,10 +15,10 @@ export default {
   data() {
     return {
       dniFrameStyle: {
-        width: '44%',
-        height: '12%',
+        width: '90%',
+        height: '25%',
         position: 'absolute',
-        top: '50%',
+        top: '77%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
       },
@@ -44,7 +45,6 @@ export default {
      // Aplica el filtro de escala de grises con aumento de brillo
      const imageData = context.getImageData(0, 0, roiWidth, roiHeight);
       const data = imageData.data;
-
       for (let i = 0; i < data.length; i += 4) {
         const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
         const brightenedAvg = avg * 1.5; // Ajusta este valor para aumentar el brillo
@@ -52,7 +52,6 @@ export default {
         data[i + 1] = brightenedAvg;
         data[i + 2] = brightenedAvg;
       }
-
       context.putImageData(imageData, 0, 0);
 
       // Dibuja el borde en la región de interés
@@ -86,7 +85,7 @@ export default {
         console.log('Captura realizada porque los bordes tienen el mismo color.');
         // Imprimir la foto en la consola
           // Obtener la representación base64 de la imagen
-        const base64Image = this.$refs.dniFrameCanvas.toDataURL();
+        const base64Image = this.$refs.dniFrameCanvas.toDataURL("image/jpeg", 1.0);
         console.log('Imagen capturada:', base64Image);
   
         // Puedes agregar aquí la lógica para guardar la captura, etc.

@@ -13,6 +13,7 @@
     "build": "quasar build"
   },
   "dependencies": {
+    "@ionic-native/nfc": "^5.36.0",
     "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
     "quasar": "^2.14.2",
